@@ -105,6 +105,14 @@
       </button>
     </div>
 
+    <!-- <button
+        class="bg-primary text-white mb-5 p-3"
+        id="button-id"
+        onclick="generateCart()"
+      >
+        Boton Ejercicio cinco
+      </button> -->
+
     <!-- Header-->
     <header class="bg-dark py-5">
       <div class="container px-4 px-lg-5 my-5">
@@ -130,7 +138,7 @@
               <img class="card-img-top" src="./images/product.svg" alt="..." />
               <div class="card-body p-4">
                 <div class="text-center">
-                  <h5 class="fw-bolder" >Cooking Oil</h5>
+                  <h5 class="fw-bolder">Cooking Oil</h5>
                   $10.5
                 </div>
               </div>
@@ -374,7 +382,8 @@
               aria-label="Close"
             ></button>
           </div>
-          <div class="modal-body">
+          <!-- shopping cart modal -->
+          <div class="modal-body" id="shopping-cart-modal"> <!--  id añadido por mi  -->
             <h3 class="text-center bill px-5">Shopping Cart</h3>
             <table class="table">
               <thead>
@@ -385,7 +394,7 @@
                   <th scope="col">Total <small>(with discount)</small></th>
                 </tr>
               </thead>
-              <!-- <tbody id="cart_list">
+              <tbody id="cart_list">
                 <tr>
                   <th scope="row">Cooking oil</th>
                   <td>$10.5</td>
@@ -404,7 +413,7 @@
                   <td>3</td>
                   <td>$45</td>
                 </tr>
-              </tbody> -->
+              </tbody>
             </table>
             <div class="text-center fs-3">
               Total: $<span id="total_price"></span>
@@ -419,6 +428,7 @@
               >
             </div>
           </div>
+          <!-- fin de shopping cart modal  -->
         </div>
       </div>
     </div>

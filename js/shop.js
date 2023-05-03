@@ -92,7 +92,7 @@ function buy(id) {
 // Exercise 2
 function cleanCart() {
   cartList = [];
-  // console.log(cartList);
+  console.log(cartList);
 }
 
 // Exercise 3
@@ -107,97 +107,112 @@ function calculateTotal() {
     totalPrice += product.price;
   }
 
-  //console.log("$ " + totalPrice + " total with no discount");
+  // console.log("$ " + totalPrice + " total with no discount");
 }
 
 // Exercise 4
 function generateCart() {
   // Using the "cartlist" array that contains all the items in the shopping cart,
   // generate the "cart" array that does not contain repeated items, instead each item of this array "cart" shows the quantity of product.
+  let cart = [];
+  for (let i = 0; i < cartList.length; i++) {
+    const product = cartList[i];
+    const existingProduct = cart.find((item) => item.id === product.id);
+    if (existingProduct) {
+      existingProduct.quantity++;
+    } else {
+      product.quantity = 1;
+      cart.push(product);
+    }
+  }
 
-  const result = Object.values(
-    cartList.reduce((acc, cur) => {
-      const key = `${cur.id}-${cur.name}-${cur.price}-${cur.type}`;
-      if (!acc[key]) {
-        acc[key] = { ...cur, quantity: 1 };
-      } else {
-        acc[key].quantity++;
-      }
-      return acc;
-    }, {})
-  );
-
-  console.log(result);
-  cart.push(result);
-  applyPromotionsCart();
+  console.log(cart);
+  applyPromotionsCart(cart);
 }
+
+//console.log(cart)
 
 // Exercise 5
 
 // Apply promotions to each item in the array "cart"
-function applyPromotionsCart() {
 
-  console.log(cart) 
+function applyPromotionsCart(cart) {
+  // add new property
+  // loop through array to find object name or ID, and if it has more than 3 clicks
 
-  let oilBottlesCount = 0;
+  cart = cart.map((p) => ({ ...p, subtotalWithDiscount: 0 }));
 
-  // Iterar sobre el array de productos para contar la cantidad de botellas de aceite en el carrito
+  // console.log(cart);
+  let hasPromotion1 = false;
   for (let i = 0; i < cart.length; i++) {
-    if (products[i].id === 1) {
-      console.log(oilBottlesCount); //porque aqui es 0 
-
-      oilBottlesCount += cart[i].quantity;
-      //console.log(oilBottlesCount);// porque aqui es NaN
+    if (cart[i].id === 1 && cart[i].quantity >= 3 ) {
+      cart[i].subtotalWithDiscount = 10;
+      hasPromotion1 = true;
+    } else {
+      cart[i].subtotalWithDiscount = cart[i].price;
     }
   }
+  console.log(cart);
+    if (!hasPromotion1)
+    for (let i = 0; i < cart.length; i++) {
+      if (cart[i].quantity >= 10 && cart[i].id === 1) {
+        discount = 2 / 3;
+        cart[i].subtotalWithDiscount = cart[i].price * discount; /// imprime 3.333333 en caso de cupcakes y 7 para el aceite
+      } else if (cart[i].quantity >= 10 && cart[i].id === 3) {
+        discount = 2 / 3;
+        cart[i].subtotalWithDiscount = cart[i].price * discount;
+      } 
+      
+      
+      else if (cart[i].quantity >= 10 && (cart[i].id === 1 && cart[i].id === 3)){
+        discount = 2 / 3;
+        cart[i].subtotalWithDiscount = cart[i].price * discount;
+      } 
+      
+      
+      else {
+        cart[i].subtotalWithDiscount = cart[i].price;
+      }
+    } 
 
-  // Verificar si hay al menos 3 botellas de aceite en el carrito
-  if (oilBottlesCount >= 3) {
-    // Aplicar la oferta modificando el campo "subtotalWithDiscount" de cada botella de aceite
-    for (let i = 0; i < products.length; i++) {
-      if (products[i].name === "cooking oil") {
-        products[i].subtotalWithDiscount = 10;
-        console.log(
-          `El precio de ${products[i].name} ahora es de ${products[i].subtotalWithDiscount} euros`
-        );
+  if (!hasPromotion1) {
+    let foundId1 = false;
+    let foundId3 = false;
+
+    for (let i = 0; i < cart.length; i++) {
+      if (cart[i].quantity >= 10 && cart[i].id === 1) {
+        foundId1 = true;
+        discount = 2 / 3;
+        cart[i].subtotalWithDiscount = cart[i].price * discount;
+      } else if (cart[i].quantity >= 10 && cart[i].id === 3) {
+        foundId3 = true;
+        discount = 2 / 3;
+        cart[i].subtotalWithDiscount = cart[i].price * discount;
+      } else {
+        cart[i].subtotalWithDiscount = cart[i].price;
       }
     }
-  }
 
-  /* for (let i = 0; i < cart.length; i++) {
-    cart[i].subtotal = cart[i].price * cart[i].quantity;
-  }
-  if (cart[i].offer === true && cart[i].quantity >= cart[i].offer.number) {
-    const discount = (cart[i].subtotal * cart[i].offer.percent) / 100;
-    cart[i].subTotalWithDiscount = cart[i].subtotal - discount;
-  } else if (cart[i].offer === false && cart[i].quantity <= cart[i].offer.number) {
-    cart[i].subTotalWithDiscount = cart[i].subtotal;
-  } 
-
-  console.log(cart[i].subTotalWithDiscount)*/
-}
-
-/*   let oilBottles = 0; // contador para ver cuantas bottelas de aceite hay en el carrito
-
-  for (let i = 0; i < cart.length; i++) {
-    const cantidad = cart[i].quantity;
-    const precio = cart[i].price;
-    // buscamos la cantidad y el precio de cada producto
-
-    cart[i].subTotal = cantidad * precio;
-  }
-
-  if (cart[i].offer === undefined) {
-    if (cantidad >= cart[i].offer.number) {
-      const oferta = cart[i].offer.percent; // calcular el subtotal con desucento y agregar al objeto del producto. si eso no se cumple (no hay numero minmo) el subtotal con descuento es igual al subtotal sin descuento
+    if (foundId1 && foundId3) {
+      for (let i = 0; i < cart.length; i++) {
+        if (cart[i].id === 1 || cart[i].id === 3) {
+          discount = 2 / 3;
+          cart[i].subtotalWithDiscount = cart[i].price * discount;
+        }
+      }
     }
+
+   
   }
+
+  console.log(cart);
 }
-console.log(cart); */
 
 // Exercise 6
-function printCart() {
+function printCart(cart) {
   // Fill the shopping cart modal manipulating the shopping cart dom
+
+  console.log(cart);
 }
 
 // ** Nivell II **
@@ -216,6 +231,6 @@ function removeFromCart(id) {
 }
 
 function open_modal() {
-  console.log("Open Modal");
+  console.log("MODAL ABIERTO");
   printCart();
 }

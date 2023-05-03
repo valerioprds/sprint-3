@@ -87,6 +87,7 @@ function buy(id) {
 
   console.log(cartList);
   calculateTotal();
+	
 }
 
 // Exercise 2
@@ -130,46 +131,77 @@ function generateCart() {
   applyPromotionsCart(cart);
 }
 
-//console.log(cart)
 
 // Exercise 5
-
 // Apply promotions to each item in the array "cart"
-
 function applyPromotionsCart(cart) {
   // add new property
   // loop through array to find object name or ID, and if it has more than 3 clicks
 
   cart = cart.map((p) => ({ ...p, subtotalWithDiscount: 0 }));
 
-  // console.log(cart);
+  console.log(cart);
 
   let hasPromotion1 = false;
   for (let i = 0; i < cart.length; i++) {
-    if (cart[i].id === 1 && cart[i].quantity >= 3 ) {
+    if (cart[i].id === 1 && cart[i].quantity >= 3) {
       cart[i].subtotalWithDiscount = 10;
       hasPromotion1 = true;
     } else {
       cart[i].subtotalWithDiscount = cart[i].price;
     }
   }
-  console.log(cart);
-    if (!hasPromotion1)
+  // console.log(cart);
+
+  if (!hasPromotion1)
     for (let i = 0; i < cart.length; i++) {
       if (cart[i].quantity >= 10 && cart[i].id === 3) {
-        discount = 2 / 3;
-        cart[i].subtotalWithDiscount = cart[i].price * discount; /// imprime 3.333333 en caso de cupcakes y 7 para el aceite
+        discountOffer = cart[0].offer.percent;
+        cart[i].subtotalWithDiscount = (cart[i].price * discountOffer) / 100; /// imprime 1.5 para los cupcakes
       } else {
         cart[i].subtotalWithDiscount = cart[i].price;
       }
+    }
+  console.log(cart);
+
+	printCart(cart)
+
+	
 }
 
 // Exercise 6
-function printCart(cart) {
+
   // Fill the shopping cart modal manipulating the shopping cart dom
 
-  console.log(cart);
-}
+	function printCart(cart) {
+		const cartList = document.getElementById("cart_list");
+	
+		for (let i = 0; i < cart.length; i++) {
+			const item = cart[i];
+			const row = document.createElement("tr");
+	
+			const nameCell = document.createElement("td");
+			nameCell.textContent = item.name;
+			row.appendChild(nameCell);
+	
+			const priceCell = document.createElement("td");
+			priceCell.textContent = `$${item.price}`;
+			row.appendChild(priceCell);
+	
+			const quantityCell = document.createElement("td");
+			quantityCell.textContent = item.quantity;
+			row.appendChild(quantityCell);
+	
+			const subtotalCell = document.createElement("td");
+			subtotalCell.textContent = `$${item.subtotalWithDiscount}`;
+			row.appendChild(subtotalCell);
+	
+			cartList.appendChild(row);
+		}
+		console.log(cart);
+	}
+	
+
 
 // ** Nivell II **
 

@@ -143,6 +143,7 @@ function applyPromotionsCart(cart) {
   cart = cart.map((p) => ({ ...p, subtotalWithDiscount: 0 }));
 
   // console.log(cart);
+
   let hasPromotion1 = false;
   for (let i = 0; i < cart.length; i++) {
     if (cart[i].id === 1 && cart[i].quantity >= 3 ) {
@@ -155,57 +156,12 @@ function applyPromotionsCart(cart) {
   console.log(cart);
     if (!hasPromotion1)
     for (let i = 0; i < cart.length; i++) {
-      if (cart[i].quantity >= 10 && cart[i].id === 1) {
+      if (cart[i].quantity >= 10 && cart[i].id === 3) {
         discount = 2 / 3;
         cart[i].subtotalWithDiscount = cart[i].price * discount; /// imprime 3.333333 en caso de cupcakes y 7 para el aceite
-      } else if (cart[i].quantity >= 10 && cart[i].id === 3) {
-        discount = 2 / 3;
-        cart[i].subtotalWithDiscount = cart[i].price * discount;
-      } 
-      
-      
-      else if (cart[i].quantity >= 10 && (cart[i].id === 1 && cart[i].id === 3)){
-        discount = 2 / 3;
-        cart[i].subtotalWithDiscount = cart[i].price * discount;
-      } 
-      
-      
-      else {
-        cart[i].subtotalWithDiscount = cart[i].price;
-      }
-    } 
-
-  if (!hasPromotion1) {
-    let foundId1 = false;
-    let foundId3 = false;
-
-    for (let i = 0; i < cart.length; i++) {
-      if (cart[i].quantity >= 10 && cart[i].id === 1) {
-        foundId1 = true;
-        discount = 2 / 3;
-        cart[i].subtotalWithDiscount = cart[i].price * discount;
-      } else if (cart[i].quantity >= 10 && cart[i].id === 3) {
-        foundId3 = true;
-        discount = 2 / 3;
-        cart[i].subtotalWithDiscount = cart[i].price * discount;
       } else {
         cart[i].subtotalWithDiscount = cart[i].price;
       }
-    }
-
-    if (foundId1 && foundId3) {
-      for (let i = 0; i < cart.length; i++) {
-        if (cart[i].id === 1 || cart[i].id === 3) {
-          discount = 2 / 3;
-          cart[i].subtotalWithDiscount = cart[i].price * discount;
-        }
-      }
-    }
-
-   
-  }
-
-  console.log(cart);
 }
 
 // Exercise 6

@@ -128,6 +128,7 @@ function generateCart() {
 
 	console.log(cart);
 	applyPromotionsCart(cart);
+	
 }
 
 // Exercise 5
@@ -158,7 +159,7 @@ function applyPromotionsCart(cart) {
 				cart[i].subtotalWithDiscount = cart[i].price;
 			}
 		}
-	console.log(cart);
+	//console.log(cart);
 
 	printCart(cart);
 }
@@ -168,38 +169,36 @@ function applyPromotionsCart(cart) {
 // Fill the shopping cart modal manipulating the shopping cart dom
 
 function printCart(cart) {
-	let shoppingCart = document.getElementById("shopping-table");
-	let tableBody = document.getElementById("cart_list");
-
-	//let existingProduct = true
-	
-	cart.forEach((p) => {
-		let row = document.createElement("tr");
-
-		let td = document.createElement("td");
-		td.style.fontWeight = "bold";
-		td.innerText = p.name;
-		row.appendChild(td);
-
-		td = document.createElement("td");
-		td.innerText = p.price;
-		row.appendChild(td);
-
-		td = document.createElement("td");
-		td.innerText = p.quantity;
-		row.appendChild(td);
-
-		td = document.createElement("td");
-		td.innerText = p.subtotalWithDiscount;
-		row.appendChild(td);
-
-		tableBody.appendChild(row);
-	});
-
-	shoppingCart.appendChild(tableBody);
+    let shoppingCart = document.getElementById("shopping-table");
+    let tableBody = document.getElementById("cart_list");
 
 
+    cart.forEach((p) => {
+        let row = document.createElement("tr");
+
+        let td = document.createElement("td");
+        td.style.fontWeight = "bold";
+        td.innerText = p.name;
+        row.appendChild(td);
+
+        td = document.createElement("td");
+        td.innerText = p.price;
+        row.appendChild(td);
+
+        td = document.createElement("td");
+        td.innerText = p.quantity;
+        row.appendChild(td);
+
+        td = document.createElement("td");
+        td.innerText = p.subtotalWithDiscount;
+        row.appendChild(td);
+
+        tableBody.appendChild(row);
+    });
+
+    shoppingCart.appendChild(tableBody);
 }
+
 
 // ** Nivell II **
 

@@ -128,7 +128,6 @@ function generateCart() {
 
 	console.log(cart);
 	applyPromotionsCart(cart);
-	
 }
 
 // Exercise 5
@@ -169,36 +168,38 @@ function applyPromotionsCart(cart) {
 // Fill the shopping cart modal manipulating the shopping cart dom
 
 function printCart(cart) {
-    let shoppingCart = document.getElementById("shopping-table");
-    let tableBody = document.getElementById("cart_list");
+	console.log(cart); // me devuelve cart array vacio
+	let shoppingCart = document.getElementById("shopping-table");
+	let tableBody = document.getElementById("cart_list");
+	//tableBody.innerHTML = "";
+	shoppingCart.removeChild(tableBody);
 
+	cart.forEach((p) => {
+		let row = document.createElement("tr");
 
-    cart.forEach((p) => {
-        let row = document.createElement("tr");
+		let td = document.createElement("td");
+		td.style.fontWeight = "bold";
+		td.innerText = p.name;
+		row.appendChild(td);
 
-        let td = document.createElement("td");
-        td.style.fontWeight = "bold";
-        td.innerText = p.name;
-        row.appendChild(td);
+		td = document.createElement("td");
+		td.innerText = p.price;
+		row.appendChild(td);
 
-        td = document.createElement("td");
-        td.innerText = p.price;
-        row.appendChild(td);
+		td = document.createElement("td");
+		td.innerText = p.quantity;
+		row.appendChild(td);
 
-        td = document.createElement("td");
-        td.innerText = p.quantity;
-        row.appendChild(td);
+		td = document.createElement("td");
+		td.innerText = p.subtotalWithDiscount;
+		row.appendChild(td);
 
-        td = document.createElement("td");
-        td.innerText = p.subtotalWithDiscount;
-        row.appendChild(td);
+		let tableBody = document.createElement("tbody");
+		tableBody.appendChild(row);
+	});
 
-        tableBody.appendChild(row);
-    });
-
-    shoppingCart.appendChild(tableBody);
+	shoppingCart.appendChild(tableBody);
 }
-
 
 // ** Nivell II **
 

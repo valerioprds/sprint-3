@@ -85,8 +85,9 @@ function buy(id) {
 		}
 	}
 
-	console.log(cartList);
-	calculateTotal();
+	console.log("cartList", cartList);
+	generateCart();
+
 }
 
 // Exercise 2
@@ -96,15 +97,17 @@ function cleanCart() {
 }
 
 // Exercise 3
+
+
 function calculateTotal() {
 	// Calculate total price of the cart using the "cartList" array
 	//console.log(cartList);
 
 	let totalPrice = 0;
 
-	for (let i = 0; i < cartList.length; i++) {
-		let product = cartList[i];
-		totalPrice += product.price;
+	for (let i = 0; i < cart.length; i++) {
+		let product = cart[i];
+		totalPrice += product.subtotalWithDiscount;
 	}
 
 	document.getElementById("total_price").innerHTML = `Total: $ ${totalPrice}`;
@@ -114,10 +117,12 @@ function calculateTotal() {
 function generateCart() {
 	// Using the "cartlist" array that contains all the items in the shopping cart,
 	// generate the "cart" array that does not contain repeated items, instead each item of this array "cart" shows the quantity of product.
-	let cart = [];
+	cart = [];
 	for (let i = 0; i < cartList.length; i++) {
 		const product = cartList[i];
+		console.log("product", product);
 		const existingProduct = cart.find((item) => item.id === product.id);
+		console.log("existing", existingProduct);
 		if (existingProduct) {
 			existingProduct.quantity++;
 		} else {
@@ -125,30 +130,38 @@ function generateCart() {
 			cart.push(product);
 		}
 	}
-
-	console.log(cart);
-	applyPromotionsCart(cart);
+	console.log("cart no promotions", cart);
+	applyPromotionsCart();
+	console.log("cart yes promotions", cart);
+	calculateTotal();
+	document.getElementById('count_product').innerHTML= cartList.length
 }
 
 // Exercise 5
 // Apply promotions to each item in the array "cart"
-function applyPromotionsCart(cart) {
+function applyPromotionsCart() {
 	cart = cart.map((p) => ({ ...p, subtotalWithDiscount: 0 }));
 
-	console.log(cart);
+	//console.log(cart);
 
-	let hasPromotion1 = false;
 	for (let i = 0; i < cart.length; i++) {
 		if (cart[i].id === 1 && cart[i].quantity >= 3) {
 			cart[i].subtotalWithDiscount = 10;
-			hasPromotion1 = true;
+			cart[i].price = 10;
+		} else if (cart[i].quantity >= 10 && cart[i].id === 3) {
+			let discountOffer = products[2].offer.percent;			
+			cart[i].subtotalWithDiscount =
+			cart[i].price * (1 - discountOffer / 100);
+			cart[i].price = cart[i].price * (1 - discountOffer / 100);
 		} else {
 			cart[i].subtotalWithDiscount = cart[i].price;
 		}
+		cart[i].subtotalWithDiscount =
+			cart[i].subtotalWithDiscount * cart[i].quantity;
 	}
 	// console.log(cart);
 
-	if (!hasPromotion1)
+	/* if (!hasPromotion1)
 		for (let i = 0; i < cart.length; i++) {
 			if (cart[i].quantity >= 10 && cart[i].id === 3) {
 				discountOffer = cart[0].offer.percent;
@@ -157,10 +170,13 @@ function applyPromotionsCart(cart) {
 			} else {
 				cart[i].subtotalWithDiscount = cart[i].price;
 			}
-		}
+			cart[i].subtotalWithDiscount = cart[i].price * cart[i].quantity;
+		} */
+
+	return cart;
 	//console.log(cart);
 
-	printCart(cart);
+	//printCart(cart);
 }
 
 // Exercise 6
@@ -171,8 +187,8 @@ function printCart(cart) {
 	console.log(cart); // me devuelve cart array vacio
 	let shoppingCart = document.getElementById("shopping-table");
 	let tableBody = document.getElementById("cart_list");
-	//tableBody.innerHTML = "";
-	shoppingCart.removeChild(tableBody);
+	tableBody.innerHTML = "";
+	//shoppingCart.removeChild(tableBody);
 
 	cart.forEach((p) => {
 		let row = document.createElement("tr");
@@ -194,7 +210,7 @@ function printCart(cart) {
 		td.innerText = p.subtotalWithDiscount;
 		row.appendChild(td);
 
-		let tableBody = document.createElement("tbody");
+		//let tableBody = document.createElement("tbody");
 		tableBody.appendChild(row);
 	});
 
@@ -217,6 +233,6 @@ function removeFromCart(id) {
 }
 
 function open_modal() {
-	console.log("MODAL ABIERTO");
+	console.log("MODAL ABIERTO", cart);
 	printCart(cart);
 }

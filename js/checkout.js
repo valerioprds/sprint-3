@@ -99,7 +99,7 @@ function validate() {
 		successPhone.style.display = "block";
 	}
 
-	/* password validation  */
+	
 	/*  	if (error > 0) {
 		alert("Error");
 	} else {

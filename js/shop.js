@@ -159,19 +159,7 @@ function applyPromotionsCart() {
 		cart[i].subtotalWithDiscount =
 			cart[i].subtotalWithDiscount * cart[i].quantity;
 	}
-	// console.log(cart);
 
-	/* if (!hasPromotion1)
-		for (let i = 0; i < cart.length; i++) {
-			if (cart[i].quantity >= 10 && cart[i].id === 3) {
-				discountOffer = cart[0].offer.percent;
-				cart[i].subtotalWithDiscount =
-					(cart[i].price * discountOffer) / 100; /// imprime 1.5 para los cupcakes
-			} else {
-				cart[i].subtotalWithDiscount = cart[i].price;
-			}
-			cart[i].subtotalWithDiscount = cart[i].price * cart[i].quantity;
-		} */
 
 	return cart;
 	//console.log(cart);

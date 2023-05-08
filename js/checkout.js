@@ -99,12 +99,11 @@ function validate() {
 		successPhone.style.display = "block";
 	}
 
-	
-	/*  	if (error > 0) {
+	if (error > 0) {
 		alert("Error");
 	} else {
 		alert("OK");
-	}  */
+	}
 }
 
 function stopSubmit(event) {
